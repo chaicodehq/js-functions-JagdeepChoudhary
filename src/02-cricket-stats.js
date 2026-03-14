@@ -39,20 +39,48 @@
  */
 export const calcStrikeRate = (runs, balls) => {
   // Your code here
+  if (Number.isInteger(balls) && Number.isInteger(runs) && balls > 0 && runs >= 0) {
+    return Number(((runs / balls) * 100).toFixed(2));
+  }
+  return 0
 };
 
 export const calcEconomy = (runsConceded, overs) => {
   // Your code here
+  if (Number.isInteger(runsConceded) && Number.isInteger(overs) && overs > 0 && runsConceded >= 0) {
+    return Number((runsConceded / overs).toFixed(2));
+  }
+  return 0
 };
 
 export const calcBattingAvg = (totalRuns, innings, notOuts = 0) => {
   // Your code here
+  if (Number.isInteger(totalRuns) && Number.isInteger(innings) && Number.isInteger(notOuts) && innings - notOuts > 0) {
+    return Number((totalRuns / (innings - notOuts)).toFixed(2))
+  }
+  return 0
 };
 
 export const isAllRounder = (battingAvg, economy) => {
   // Your code here
+  return battingAvg > 30 && economy < 8;
 };
 
 export const getPlayerCard = (player) => {
   // Your code here
+  if (player && typeof player.name === "string") {
+    const strikeRate = calcStrikeRate(player.runs, player.balls)
+    const economy = calcEconomy(player.runsConceded, player.overs)
+    const battingAvg = calcBattingAvg(player.totalRuns, player.innings, player.notOuts)
+    const AllRounder = isAllRounder(battingAvg, economy)
+
+    return {
+      name: player.name,
+      strikeRate,
+      economy,
+      battingAvg,
+      isAllRounder: AllRounder
+    };
+  }
+  return null;
 };
